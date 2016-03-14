@@ -59,6 +59,7 @@
 		D44C620E132DFF430009C878 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620D132DFF430009C878 /* AVFoundation.framework */; };
 		D44C6210132DFF4E0009C878 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44C620F132DFF4E0009C878 /* AudioToolbox.framework */; };
 		D60E14811C925EEC0048E508 /* bomb.png in Resources */ = {isa = PBXBuildFile; fileRef = D60E14801C925EEC0048E508 /* bomb.png */; };
+		D60E14871C92989A0048E508 /* PanelSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D60E14851C92989A0048E508 /* PanelSprite.cpp */; };
 		D64313751C9105360039F1AA /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = D64313741C9105360039F1AA /* background.png */; };
 		D64313771C910AAB0039F1AA /* se in Resources */ = {isa = PBXBuildFile; fileRef = D64313761C910AAB0039F1AA /* se */; };
 		D64313791C910AD70039F1AA /* bgm in Resources */ = {isa = PBXBuildFile; fileRef = D64313781C910AD70039F1AA /* bgm */; };
@@ -76,6 +77,7 @@
 		D64313B21C915DFB0039F1AA /* panel_before.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D64313B01C915DFB0039F1AA /* panel_before.jpg */; };
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		D6B498321C902EC0002D0087 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6B498301C902EC0002D0087 /* GameScene.cpp */; };
+		D6BCBD8E1C96544D00D13480 /* reset.png in Resources */ = {isa = PBXBuildFile; fileRef = D6BCBD8D1C96544D00D13480 /* reset.png */; };
 		ED545A7C1B68A1F400C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7B1B68A1F400C3958E /* libiconv.dylib */; };
 		ED545A7E1B68A1FA00C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7D1B68A1FA00C3958E /* libiconv.dylib */; };
 /* End PBXBuildFile section */
@@ -165,6 +167,8 @@
 		D44C620D132DFF430009C878 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D60E14801C925EEC0048E508 /* bomb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bomb.png; sourceTree = "<group>"; };
+		D60E14851C92989A0048E508 /* PanelSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PanelSprite.cpp; sourceTree = "<group>"; };
+		D60E14861C92989A0048E508 /* PanelSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanelSprite.h; sourceTree = "<group>"; };
 		D64313741C9105360039F1AA /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		D64313761C910AAB0039F1AA /* se */ = {isa = PBXFileReference; lastKnownFileType = folder; path = se; sourceTree = "<group>"; };
 		D64313781C910AD70039F1AA /* bgm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = bgm; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 		D6B498301C902EC0002D0087 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
 		D6B498311C902EC0002D0087 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		D6B498441C903C8F002D0087 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		D6BCBD8D1C96544D00D13480 /* reset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reset.png; sourceTree = "<group>"; };
 		ED545A7B1B68A1F400C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libiconv.dylib; sourceTree = DEVELOPER_DIR; };
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -311,6 +316,7 @@
 				D64313781C910AD70039F1AA /* bgm */,
 				D64313761C910AAB0039F1AA /* se */,
 				D64313741C9105360039F1AA /* background.png */,
+				D6BCBD8D1C96544D00D13480 /* reset.png */,
 				D64313961C9157640039F1AA /* 1.png */,
 				D64313971C9157640039F1AA /* 2.png */,
 				D64313981C9157640039F1AA /* 3.png */,
@@ -337,6 +343,8 @@
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				D6B498301C902EC0002D0087 /* GameScene.cpp */,
 				D6B498311C902EC0002D0087 /* GameScene.h */,
+				D60E14851C92989A0048E508 /* PanelSprite.cpp */,
+				D60E14861C92989A0048E508 /* PanelSprite.h */,
 				D6B498441C903C8F002D0087 /* Config.h */,
 			);
 			name = Classes;
@@ -491,6 +499,7 @@
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				D64313751C9105360039F1AA /* background.png in Resources */,
+				D6BCBD8E1C96544D00D13480 /* reset.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
@@ -542,6 +551,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				D60E14871C92989A0048E508 /* PanelSprite.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				D6B498321C902EC0002D0087 /* GameScene.cpp in Sources */,

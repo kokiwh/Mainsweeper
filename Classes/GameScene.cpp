@@ -1,5 +1,5 @@
 #include "GameScene.h"
-//#include "BlockSprite.h"
+#include "PanelSprite.h"
 
 USING_NS_CC;
 
@@ -50,7 +50,7 @@ bool Game::init()
     this->addChild(menu, 1);
     
     // タップイベントを取得する
-    touchEnabled(true);
+    // touchEnabled(true);
     
     // 変数初期化
     initForVariables();
@@ -114,7 +114,7 @@ void Game::initForVariables()
     _audio = SimpleAudioEngine::getInstance();
     
     // パネルの1辺の長さを取得
-    Sprite* panel = Sprite::create(JPG_PANEL_BEFORE);
+    PanelSprite* panel = PanelSprite::create();
     m_panelSize = panel->getContentSize().height;
 }
 
@@ -131,52 +131,52 @@ void Game::showBackground()
 // パネル初期化
 void Game::initPanel()
 {
-    log("START drawSprite --------");
-    double tStart = getSec();
-    // 爆弾の数
-    int max_bomb_num = MAX_BOMB_NUM;
+    //    log("START drawSprite --------");
+    //    double tStart = getSec();
     // 画像をキャッシュする
     // Director::getInstance()->getTextureCache()->addImage(JPG_PANEL_BEFORE);
     // パネルを作成 10×16
     for (int x = 0; x < MAX_BLOCK_X; x++) {
         for (int y = 0; y < MAX_BLOCK_Y; y++) {
             // 初期パネル画像
-            Sprite* panel = Sprite::create(JPG_PANEL_BEFORE);
-            // パネルの位置を設定
+            PanelSprite* panel = PanelSprite::create();
+            // パネルのポジションをセット(10000式)
+            panel->setPos(getTag(x, y));
+            // パネルの位置を設定(座標POINT)
             panel->setPosition(getPosition(x, y));
-            // 爆弾をセット (爆弾が残っている場合 && 2分の1の確率)
-            if (max_bomb_num > 0 && (rand()%2) > 0) {
-                // 爆弾のタグをパネルにセット
-                panel->setTag(Config::kTagBomb);
-                // 爆弾の残り数をデクリメント
-                --max_bomb_num;
-            }
-            else
-            {
-                // パネルのタグをパネルにセット
-                panel->setTag(Config::kTagPanel);
-            }
+            //            // 爆弾をセット (爆弾が残っている場合 && 2分の1の確率)
+            //            if (max_bomb_num > 0 && (rand()%2) > 0) {
+            //                // 爆弾のタグをパネルにセット
+            //                panel->setTag(Config::kTagBomb);
+            //                // 爆弾の残り数をデクリメント
+            //                --max_bomb_num;
+            //            }
+            //            else
+            //            {
+            //                // パネルのタグをパネルにセット
+            //                panel->setTag(Config::kTagPanel);
+            //            }
             // パネルをvectorに追加
+//            panel->addVector();
             panelBlocks.push_back(panel);
         }
     }
-
-    double tEnd = getSec();
-    log(" END  drawSprite -------- %f", tEnd - tStart);
-
-    // 爆弾が全てセットしきれなかった場合
-    if (max_bomb_num > 0) {
-        // 爆弾をセットする．
-        while (max_bomb_num < 1) {
-            // ランダムでパネルを取得
-            Sprite* panel = panelBlocks[rand() % panelBlocks.size()];
-            // 爆弾がセットされていなければtrue
-            if (panel->getTag() != Config::kTagBomb) {
-                // 爆弾のタグをパネルにセット
-                panel->setTag(Config::kTagBomb);
-                // 爆弾の残り数をデクリメント
-                --max_bomb_num;
-            }
+    
+    //    double tEnd = getSec();
+    //    log(" END  drawSprite -------- %f", tEnd - tStart);
+    
+    // 爆弾の数
+    int max_bomb_num = MAX_BOMB_NUM;
+    // 爆弾をセットする．
+    while (max_bomb_num > 0) {
+        // ランダムでインデックスを取得
+        int r_num = rand() % panelBlocks.size();
+        // 爆弾がセットされていなければtrue
+        if (panelBlocks[r_num]->getTag() != Config::kTagBomb) {
+            // 爆弾のタグをパネルにセット
+            panelBlocks[r_num]->setTag(Config::kTagBomb);
+            // 爆弾の残り数をデクリメント
+            --max_bomb_num;
         }
     }
 }
@@ -223,35 +223,9 @@ void Game::TouchEnded(Touch* pTouch, Event* pEvent)
 {
     // タップポイント取得
     Point touchPoint = m_background->convertTouchToNodeSpace(pTouch);
-    // タップした位置のパネルを取得
-    getTouchPanelTag(touchPoint);
     
     
     log("touch end!");
-}
-
-
-// タップされたコマのタグを取得
-void Game::getTouchPanelTag(Point touchPoint)
-{
-    // コマを表示 vectorのfor文
-    for (auto sprite_panel : panelBlocks)
-    {
-        auto rect = sprite_panel->getBoundingBox();
-        if (rect.containsPoint(touchPoint)) {
-            // ボムの位置
-            if (sprite_panel->getTag() == Config::kTagBomb) {
-                log("Game Over");
-                showGameOver(sprite_panel);
-            }
-            else
-            {
-                log("Open Panel");
-                showOpenPanel(sprite_panel);
-            }
-            break;
-        }
-    }
 }
 
 // コマのタグを取得
@@ -265,23 +239,52 @@ void Game::showGameOver(Sprite* sprite_panel)
 {
     // スプライトのアクションを停止
     sprite_panel->stopAllActions();
-    // 画像を置き換える
-    replaceImage(sprite_panel, PNG_BOMB);
+    // 画像を全て置き換える
+    for (auto panel : panelBlocks)
+    {
+        switch (panel->getTag()) {
+            case Config::kTagPanel:
+                replaceImage(panel, panel->getImageFileName(0));
+                break;
+            case Config::kTagBomb:
+                replaceImage(panel, PNG_BOMB);
+                break;
+            default:
+                break;
+        }
+    }
     // タップイベント無効化
-    touchEnabled(false);
+    // touchEnabled(false);
 }
 
-void Game::showOpenPanel(Sprite* sprite_panel)
+void Game::showOpenPanel(PanelSprite* sprite_panel, int position)
 {
+
     // 周囲のボムを検索
-    searchBomb(sprite_panel);
+//    searchBomb(position);
+    int base_pos_x = (position - Config::kTagBasePanel) / 100;
+    int base_pos_y = (position - Config::kTagBasePanel) % 100;
+    int num = 0;
     
-    
+    for (PanelSprite* panel : panelBlocks)
+    {
+        if (panel->getTag() == Config::kTagBomb) {
+            int p_position = panel->getNowPos();
+            int p_pos_x = (p_position - Config::kTagBasePanel) / 100;
+            int p_pos_y = (p_position - Config::kTagBasePanel) % 100;
+            if ((abs(base_pos_x - p_pos_x) == 1 && abs(base_pos_y - p_pos_y) < 2) || (abs(base_pos_y - p_pos_y) == 1 && abs(base_pos_x - p_pos_x) < 2) ) {
+                ++num;
+            }
+            
+        }
+    }
     
     // スプライトのアクションを停止
     sprite_panel->stopAllActions();
+    
+    
     // 画像を置き換える
-    replaceImage(sprite_panel, JPG_PANEL_AFTER);
+    replaceImage(sprite_panel, sprite_panel->getImageFileName(num));
 }
 
 // スプライトの画像を置き換える
@@ -290,6 +293,7 @@ void Game::replaceImage(Sprite* sprite_panel, string file_name)
     Sprite* frame = Sprite::create(file_name);
     sprite_panel->setTexture(frame->getTexture());
 }
+
 
 //=======================================================
 /// 秒数取得
@@ -300,8 +304,24 @@ double Game::getSec(){
     return (val.tv_sec) + (val.tv_usec) * 1e-6;
 }
 
-// 周りのボムを検索
-void Game::searchBomb(Sprite* sprite_panel)
+// リセットボタンの処理
+void Game::menuResetCallback(Ref *pSender)
 {
+    // シーンを置き換え
+    Director::getInstance()->replaceScene(Game::createScene());
+}
+
+// リセットボタンの作成
+void Game::showResetButton()
+{
+    Size bgSize = m_background->getContentSize();
     
+    // リセットボタン作成
+    MenuItemImage* resetButton = MenuItemImage::create(PNG_RESET, PNG_RESET, CC_CALLBACK_1(Game::menuResetCallback, this));
+    resetButton->setPosition(Point(bgSize.width * 0.78, bgSize.height * 0.06));
+    
+    // メニュー作成
+    Menu* menu = Menu::create(resetButton, NULL);
+    menu->setPosition(Vec2::ZERO);
+    m_background->addChild(menu);
 }

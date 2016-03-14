@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Config.h"
 #include "SimpleAudioEngine.h"
+#include "PanelSprite.h"
 
 USING_NS_CC;
 using namespace std;
@@ -25,7 +26,7 @@ protected:
     // パネルの一辺のサイズを記録する
     float m_panelSize;
 
-    vector<Sprite*> panelBlocks;
+    vector<PanelSprite*> panelBlocks;
     
     void touchEnabled(bool flg);
     
@@ -35,13 +36,10 @@ protected:
     Point getPosition(int posIndexX, int posIndexY);
     void showPanel();
 
-    void getTouchPanelTag(Point touchPoint);
     int getTag(int posIndexX, int posIndexY);
-    void showGameOver(Sprite* sprite_panel);
-    void showOpenPanel(Sprite* sprite_panel);
     void replaceImage(Sprite* sprite_panel, string file_name);
     double getSec();
-    void searchBomb(Sprite* sprite_panel);
+    void searchBomb(int position);
     
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -60,6 +58,14 @@ public:
     virtual bool TouchBegan(Touch* pTouch, Event* pEvent);
     // タップ終了時に処理されるメソッドを宣言
     virtual void TouchEnded(Touch* pTouch, Event* pEvent);
+
+    void showGameOver(Sprite* sprite_panel);
+    void showOpenPanel(PanelSprite* sprite_panel, int position);
+
+    // リセットボタン
+    void menuResetCallback(Ref* pSender);
+    void showResetButton();
+
 };
 
 #endif // __GAME_SCENE_H__
